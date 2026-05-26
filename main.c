@@ -6,7 +6,7 @@ int main() {
     printf("Enter the first number: ");
     scanf("%d", &a);
 
-    printf("Enter the second number: ");
+    printf("Enter the second number now: ");
     scanf("%d", &b);
 
     printf("Sum = %d\n", a + b);
