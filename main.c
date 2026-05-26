@@ -3,7 +3,7 @@
 int main() {
     int a, b;
 
-    printf("Enter first number: ");
+    printf("Enter the first number: ");
     scanf("%d", &a);
 
     printf("Enter second number: ");
