@@ -1,10 +1,7 @@
-name: Build and Publish
+name: Build EXE
 
 on:
   push:
-
-permissions:
-  contents: write
 
 jobs:
   build:
@@ -13,22 +10,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build
-        shell: cmd
+      - uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: mingw-w64-x86_64-gcc
+
+      - name: Check compiler
+        shell: msys2 {0}
         run: |
-          cl /EHsc main.c /Fe:calculator.exe
+          gcc --version
 
-      - name: Delete old latest release
-        uses: dev-drprasad/delete-tag-and-release@v1.1
-        continue-on-error: true
-        with:
-          tag_name: latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build
+        shell: msys2 {0}
+        run: |
+          gcc main.c -o calculator.exe
 
-      - name: Create latest release
-        uses: softprops/action-gh-release@v2
+      - uses: actions/upload-artifact@v4
         with:
-          tag_name: latest
-          name: Latest Build
-          files: calculator.exe
+          name: calculator-exe
+          path: calculator.exe
