@@ -1,0 +1,23 @@
+name: Build C Program (Self-Hosted)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile main.c
+        run: |
+          gcc main.c -o main
+
+      - name: Run program
+        run: |
+          ./main
